@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	@Override
 	public UserResponse authentication(User user) throws UserException {
+		if(user.getUserName().isEmpty() || user.getPassword().isEmpty())throw  new UserException("user and password is null");
 		Optional<User> userName = userRepository.findByUserName(user.getUserName());
 
 		if (!userName.isPresent())
@@ -30,4 +30,5 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
+
 }
