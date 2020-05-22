@@ -26,7 +26,7 @@ public class UserController {
 
 	private UserService userService;
 
-	@PostMapping
+	@PostMapping("/login")
 	public ResponseEntity<UserResponse> authentication(@RequestBody User user) throws UserException, UserPassword {
 	
 
