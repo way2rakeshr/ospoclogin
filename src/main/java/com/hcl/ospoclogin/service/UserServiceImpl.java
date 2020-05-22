@@ -1,7 +1,7 @@
 package com.hcl.ospoclogin.service;
 
 import java.util.Optional;
-import java.util.function.Supplier;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,26 +9,31 @@ import org.springframework.stereotype.Service;
 import com.hcl.ospoclogin.dto.UserResponse;
 import com.hcl.ospoclogin.entity.User;
 import com.hcl.ospoclogin.exception.UserException;
+import com.hcl.ospoclogin.exception.UserPassword;
 import com.hcl.ospoclogin.repository.UserRepository;
+import com.hcl.ospoclogin.utlity.AppConstant;
 
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
-	public UserResponse authentication(User user) throws UserException {
-		if(user.getUserName().isEmpty() || user.getPassword().isEmpty())throw  new UserException("user and password is null");
+	@Override
+	public UserResponse authentication(User user) throws UserException, UserPassword {
+		System.out.println("first");
+		if (user.getUserName().isEmpty() || user.getPassword().isEmpty())
+			throw new UserException(AppConstant.USERNAME_AND_PASSWORD);
 		Optional<User> userName = userRepository.findByUserName(user.getUserName());
 
 		if (!userName.isPresent())
-			throw new UserException("user not exist");
+			throw new UserException(AppConstant.USER_NOT_EXIST);
 
-		if (userName.get().getUserName().equals( user.getUserName()) && userName.get().getPassword() .equals( user.getPassword())) {
-			return new UserResponse(701, "succesfully logged in");
+		if (userName.get().getUserName().equals(user.getUserName())
+				&& userName.get().getPassword().equals(user.getPassword())) {
+			return new UserResponse(AppConstant.SUCCESFULLY_LOGGED_IN_STATUS, AppConstant.SUCCESFULLY_LOGGED_IN);
 		} else {
-			throw new UserException("password is not matching with username");
+			throw new UserPassword(AppConstant.PASSWORD_NOT_MATCHING);
 		}
 
 	}
-
 }

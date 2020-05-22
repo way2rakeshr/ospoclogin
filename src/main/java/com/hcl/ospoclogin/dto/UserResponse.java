@@ -1,18 +1,18 @@
 package com.hcl.ospoclogin.dto;
 
 public class UserResponse {
-	int id;
-	String message;
-	public UserResponse(int id, String message) {
+	private int statusCode;
+	private String message;
+	public UserResponse(int statusCode, String message) {
 		super();
-		this.id = id;
+		this.statusCode = statusCode;
 		this.message = message;
 	}
-	public int getId() {
-		return id;
+	public int getStatusCode() {
+		return statusCode;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
 	}
 	public String getMessage() {
 		return message;
@@ -20,5 +20,7 @@ public class UserResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	
 
 }
